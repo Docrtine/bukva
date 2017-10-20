@@ -35,11 +35,6 @@ class IndexController extends BaseController
 
     public function showAction()
     {
-       /* $MT_40 = array('Амброщук','Аксенова','Афанасьева','Бондарь','Вихров','Дрозденко','Очковская','Лагно','Львова','Круковский','Симакова');
-        sort($MT_40);
-        var_dump($MT_40);
-        shuffle($MT_40);
-        var_dump($MT_40);*/
         $id = $this->params()->fromRoute('id', 0);
         $remote = new RemoteAddress();
 
@@ -96,15 +91,6 @@ $pr = array();
         {
             array_push($pr, $query3[$i][1]);
         }
-       /* $qb = $em->createQueryBuilder()
-            ->select(array('b.title','b.author','b.picturename','b.isbn'))
-            ->from('User\Entity\Books', 'b')
-            ->where(      $qb->expr()->orx(
-                $qb->expr()->eq('b.category', ':category')))
-            ->setParameter('category',$pr) ;
-
-        $query6 = $qb->getQuery();
-        $ratings = $query6->execute();*/
 
         $dql = "SELECT b.title, b.author, b.picturename, b.isbn FROM User\Entity\Books b WHERE b.category IN (?1)
                AND NOT  EXISTS ( SELECT  b1.isbn FROM User\Entity\Books b1 WHERE b.isbn IN (?2))";
@@ -127,23 +113,9 @@ $pr = array();
           } else {
               $reviewsUser = new ReviewsAddForm();
           }
-         /* if ($this->request->isPost()) {
-              $em = $this->getEntityManager();
-              $reviews = new Reviews();
-             // $reviews->setId(3);
-              $reviews->setIsbn("978-5-386-06458-7");
-              $reviews->setText("dawd");
-              $reviews->setIdUser(1);
-              $reviews->setDate(new \DateTime('now'));
-              $em->persist($reviews);
-              $em->flush();
-              $data = $this->request->getPost();
-            //  $this->reviewsAdd($data);
-          }*/
+
         return array('books' => $a, 'ip' => $ip, 'reviews' => $b, 'form' => $reviewsUser, 'korzin' => $korzinForm,
             'prosm' => $query2, 'books_author' =>$query5, 'books_recomend' =>$result);
-
-        // return array('result' => $result);
     }
 
     public function reviewsAdd($data)
@@ -165,27 +137,8 @@ $pr = array();
         $loggedUser = $authenticationService->getIdentity();
        $query = $conn->createQueryBuilder()->select('id')->from('Users')->where('email = ?')->setParameter(0, $loggedUser->getEmail());
         $idUser = $query->execute()->fetchColumn();
-       // $query = $this->getEntityManager()->createQueryBuilder();
-       // $query->select('i')->from('User\Entity\Users', 'i')->where('i.email = :email')->setParameter('email', $loggedUser->getEmail());
-     //   $result = $query->getQuery()->getResult();
-       // foreach ($result as $item) {
-      //      $data['idUser'] = $item->getId();
-      //  }
-
 
         $queryx = $conn->createQueryBuilder();
-        /*$queryx->insert('reviews')->setValue('id', '?')
-            ->setValue('isbn', '?')->setValue('id_user', '?')->setValue('date','?')->setValue('text','?')
-            ->setParameter(1,'fwaf')->setParameter(2, 3)->setParameter(3, "11-11-2011")->setParameter(4, "dwaad");
-        $queryx->insert('Reviews')->values(
-            array(
-                     'id' => '?',
-                    'isbn' => '?',
-                'id_user' => '?',
-                'date' => '?',
-                'text' => '?',
-            ))->setParameter(0,2) ->setParameter(1,'978-5-386-06458-7')->setParameter(2, 1)->setParameter(3, "11-11-2011")->setParameter(4, "dwaad");
-*/
         $resultx = $queryx->execute();
 
         $request = $this->request;
@@ -202,12 +155,6 @@ $pr = array();
                 'date' => '?',
                 'text' => '?',
             ))->setParameter(0,3) ->setParameter(1,'978-5-386-06458-7')->setParameter(2,  1)->setParameter(3, $data['date'])->setParameter(4, $data['text']);
-        /* $em = $this->getEntityManager();
-         $reviews = new Reviews();
-         //    $data = $reviews->exchangeArray($data);
-         // var_dump($data);
-         $em->persist($data);
-         $em->flush();*/
 
     }
     public function korzinAction()
