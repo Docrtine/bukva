@@ -1,0 +1,168 @@
+<div id="books-content">
+    <?php
+
+
+    //echo $this->ip;
+    foreach ($books as $item) {
+    $bookName = $item->getTitle();
+    $category = $item->getCategory();
+    $isbn = $item->getIsbn();
+    if ($category) {
+        $catName = $category->getCategory();
+    }
+
+
+    echo "<h1><center>{$item->getAuthor()}  {$item->getTitle()}</center></h1>";
+    echo "<img src='{$item->getPicturename()}' height='350' width='280' class='picture'>";
+    echo "<table class='table-books-content'><tbody>
+        <td><b>ISBN:</b> {$item->getIsbn()}</td></tr>
+        <tr><td><b>Автор:</b> {$item->getAuthor()}</td></tr>
+        <tr><td><b>Название:</b>{$item->getTitle()}</td></tr>
+        <tr><td><b>Категория:</b> {$catName}</td></tr>
+        <tr><td><b>Страниц: </b>{$item->getPages()}</td></tr>
+        <tr><td><b>Цена: </b>{$item->getPrice()}</td></tr>
+        ";
+
+
+    ?>
+    </tbody>
+    </table>
+
+
+        <?php
+
+        $korzin = $this->korzin;
+        $korzin->setAttribute('action', $this->url(NULL, array('controller' => 'Index', 'action' => 'korzin')));
+
+        $korzin->prepare();
+        $korzin->get('isbn_korzin')->setValue($isbn);
+
+        echo $this->form()->openTag($korzin);
+        echo $this->formElement($korzin->get('submit2'));
+        echo $this->formElement($korzin->get('isbn_korzin'));
+        echo $this->form()->closeTag();
+?>
+    <div id="comments">  <fieldset><legend>Отзывы о книге <?php echo $item->getTitle(); ?></legend>
+        <?php
+        if($reviews[0] != null) {
+            $user = $reviews[0]->getIdUser();
+            if ($user) {
+                $userName = $user->getName();
+            }
+            echo "<table class='table table-striped table-hover'>";
+            echo "<tr>
+<td> $userName   </td>
+<td>{$reviews[0]->getDate()}</td>
+<td>{$reviews[0]->getText()}</td>
+
+</table>
+
+";
+
+        }
+
+
+            // var_dump($reviews[0]->getText());
+        if ($form != false) {
+            //  $form->setAttribute('action', $this->url('books/index/', array('action' => 'show')));
+            $form->setAttribute('action', $this->url(NULL, array('controller' => 'Index', 'action' => 'show')));
+
+            $form->prepare();
+
+            echo $this->form()->openTag($form);
+            $form->get('isbn')->setValue(2222);
+            $form->get('idUser')->setValue(22);
+            $form->get('date')->setValue("11-11-2011");
+            foreach ($form as $element) {
+                echo '<div>';
+                $attributes = $element->getAttributes();
+
+                if (isset($attributes['type']) && $attributes['type'] == 'textarea') {
+                    echo "<p style='font-size: 18px;'>Ваш отзыв </p>";
+                    echo $this->formTextArea($element) . "<br>";
+
+                } else {
+                    echo $this->formRow($element) . "<br>";
+                }
+
+                echo '</div>';
+            }
+
+            echo $this->form()->closeTag();
+        } else {
+            echo "<br> Только авторизированые пользователи могут оставлять комментарии";
+        }
+        echo '</fieldset>';
+        }
+        ?>
+    </div>
+    </tbody>
+    </table><br>
+
+    <fieldset>
+        <legend>Вы просматривали</legend>
+        <div id="prosmotr">
+            <?php
+            foreach ($prosm as $items) {
+                $img = $items['picturename'];
+                $author = $items['author'];
+                $title = $items['title'];
+                $i = $items['isbn'];
+                echo "<ul class='hr'>
+   <li><a href=" . $this->url(
+                'books', array('action' => 'show', 'id' => $i)
+            ) . "> <img src='$img' height='200' width='150' alt='dd0'><br>$author<br>\"$title\"</a></li>
+   <li></li>
+  </ul>";
+
+            }
+
+
+            ?> </div>
+    </fieldset>
+    <fieldset>
+        <legend>Другие книги автора</legend>
+        <div id="prosmotr">
+            <?php
+            foreach ($books_author as $items) {
+                $img = $items['picturename'];
+                $author = $items['author'];
+                $title = $items['title'];
+                $i = $items['isbn'];
+                echo "<ul class='hr'>
+   <li><a href=" . $this->url(
+                        'books', array('action' => 'show', 'id' => $i)
+                    ) . "> <img src='$img' height='200' width='150' alt='dd0'><br>$author<br>\"$title\"</a></li>
+   <li></li>
+  </ul>";
+
+            }
+
+
+            ?> </div>
+    </fieldset>
+    <fieldset>
+        <legend>Вам будет интересно</legend>
+        <div id="prosmotr">
+            <?php
+            foreach ($books_recomend as $items) {
+                $img = $items['picturename'];
+                $author = $items['author'];
+                $title = $items['title'];
+                $i = $items['isbn'];
+                echo "<ul class='hr'>
+   <li><a href=" . $this->url(
+                        'books', array('action' => 'show', 'id' => $i)
+                    ) . "> <img src='$img' height='200' width='150' alt='dd0'><br>$author<br>\"$title\"</a></li>
+   <li></li>
+  </ul>";
+
+            }
+
+
+            ?> </div>
+    </fieldset>
+
+
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+</div>

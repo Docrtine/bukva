@@ -1,0 +1,194 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <?php echo $this->headTitle('Буква - Книжный интернет магазин')
+        ->setAutoEscape(false) ?>
+
+
+    <!-- Le styles -->
+    <?php echo $this->headLink(
+        array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon',
+            'href' => $this->basePath() . '/img/favicon.ico')
+    )
+        ->prependStylesheet($this->basePath('css/style.css'))
+
+    ?>
+
+
+    <!-- Scripts -->
+    <?php echo $this->headScript()
+        ->prependFile($this->basePath('js/bootstrap.min.js'))
+        ->prependFile($this->basePath('js/jquery.min.js'))
+        ->prependFile(
+            $this->basePath('js/respond.min.js'), 'text/javascript',
+            array('conditional' => 'lt IE 9',)
+        )
+        ->prependFile(
+            $this->basePath('js/html5shiv.min.js'), 'text/javascript',
+            array('conditional' => 'lt IE 9',)
+        ); ?>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".sub > a").click(function () {
+                var ul = $(this).next(),
+                    clone = ul.clone().css({"height": "auto"}).appendTo(".mini-menu"),
+                    height = ul.css("height") === "0px" ? ul[0].scrollHeight + "px" : "0px";
+                clone.remove();
+                ul.animate({"height": height});
+                return false;
+            });
+            $('.mini-menu > ul > li > a').click(function () {
+                $('.sub a').removeClass('active');
+                $(this).addClass('active');
+            }),
+                $('.sub ul li a').click(function () {
+                    $('.sub ul li a').removeClass('active');
+                    $(this).addClass('active');
+                });
+        });
+    </script>
+    <script>
+
+        var id_menu = new Array('sub_menu_1', 'sub_menu_2', 'sub_menu_3', 'sub_menu_4', 'sub_menu_5', 'sub_menu_6');
+        startList = function allclose() {
+            for (i = 0; i < id_menu.length; i++) {
+                document.getElementById(id_menu[i]).style.display = "none";
+            }
+        }
+        function openMenu(id) {
+            for (i = 0; i < id_menu.length; i++) {
+                if (id != id_menu[i]) {
+                    document.getElementById(id_menu[i]).style.display = "none";
+                }
+            }
+            if (document.getElementById(id).style.display == "block") {
+                document.getElementById(id).style.display = "none";
+            } else {
+                document.getElementById(id).style.display = "block";
+            }
+        }
+        window.onload = startList;
+    </script>
+</head>
+<body>
+
+<div id="wrapper">
+    <header>
+        <div id="station"><b>Добро пожаловать, <?php
+                $container = new Zend\Session\Container('user');
+                if( $container->user == 'Гость' ) { echo "$container->user" ?>
+                Пожалуйста <a style="color: darkslategray;text-decoration: none;" href="/user/auth/">авторизируйтесь</a> или <a href="/user/register/"style="color: darkslategray;text-decoration: none;">зарегестрируйтесь</a>
+               <?php } else {
+                    echo $container->user;
+                }
+                ?>
+            <div class="korz">
+                <?php
+                $container = new Zend\Session\Container('korzin');
+                echo "<a style='text-decoration: none; color: black' href='/books/korzin/'>Товаров в корзине - ". count($container->isbn).'</a>';
+                ?>
+                </div>
+        </div></b>
+        <a href="http://bukva.ua/"><img src="/img/logo.png"></a>
+        <img src="/img/logo_2.png" width="420" height="150" style="position: relative; left: 63px;top:4px;"></header>
+
+    <nav>
+
+
+        <ul class="nav">
+            <li><a href="http://bukva.ua/">Главная</a>
+            </li>
+            <li><a href="#">Новинки</a>
+            </li>
+            <li><a href="#">О нас</a></li>
+            <li><a href="#">Совместные покупки</a></li>
+            <li><a href="#">Оплата и доставка</a></li>
+            <li><a href="#">Контакты</a></li>
+            <li><a href="#">Гостевая книга</a></li>
+            <li>
+                <form action="" method="post" class="search">
+                    <input type="search" name="" placeholder="поиск" class="input"/>
+                    <input type="submit" name="" value="" class="submit"/>
+                </form>
+            </li>
+        </ul>
+
+    </nav>
+    <div id="heading"></div>
+
+    <div class="mini-menu">
+        <ul>
+            <li class="sub">
+                <a href="#">Фантастика</a>
+                <ul>
+                    <li><a href="#">Ссылка - 1</a></li>
+                    <li><a href="#">Ссылка - 2</a></li>
+                    <li><a href="#">Ссылка - 3</a></li>
+                </ul>
+            </li>
+            <li class="sub">
+                <a href="#">Исторические</a>
+                <ul>
+                    <li><a href="#">Ссылка - 6</a></li>
+                    <li><a href="#">Ссылка - 7</a></li>
+                    <li><a href="#">Ссылка - 8</a></li>
+                    <li><a href="#">Ссылка - 9</a></li>
+                </ul>
+            </li>
+            <li class="sub">
+                <a href="#">Документальные</a>
+                <ul>
+                    <li><a href="#">Ссылка - 1</a></li>
+                    <li><a href="#">Ссылка - 2</a></li>
+                    <li><a href="#">Ссылка - 3</a></li>
+                    <li><a href="#">Ссылка - 4</a></li>
+                    <li><a href="#">Ссылка - 5</a></li>
+                </ul>
+            </li>
+            <li class="sub">
+                <a href="#">Учебная литература</a>
+                <ul>
+                    <li><a href="#">Ссылка - 1</a></li>
+                    <li><a href="#">Ссылка - 2</a></li>
+                    <li><a href="#">Ссылка - 3</a></li>
+                    <li><a href="#">Ссылка - 4</a></li>
+                    <li><a href="#">Ссылка - 5</a></li>
+                    <li><a href="#">Ссылка - 6</a></li>
+                </ul>
+            </li>
+            <li class="sub">
+                <a href="#">Медицина и здоровье</a>
+                <ul>
+                    <li><a href="#">Ссылка - 1</a></li>
+                    <li><a href="#">Ссылка - 2</a></li>
+                    <li><a href="#">Ссылка - 3</a></li>
+                    <li><a href="#">Ссылка - 4</a></li>
+                    <li><a href="#">Ссылка - 5</a></li>
+                </ul>
+            </li>
+            <li class="sub">
+                <a href="#">Детские книги</a>
+                <ul>
+                    <li><a href="#">Ссылка - 1</a></li>
+                    <li><a href="#">Ссылка - 2</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <section id="content"><?php echo $this->content; ?>
+
+        <footer>
+            <center>
+                <p>&copy; <?php echo "2015 - ". date('Y') ?> Буква - Книжный интернет-магазин. Все
+                    права защищены</p></center>
+        </footer>
+    </section>
+</div>
+
+
+</body>
+</html>

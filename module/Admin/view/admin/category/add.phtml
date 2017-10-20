@@ -1,0 +1,36 @@
+<?php
+
+$form->setAttribute('action', $this->url('admin/category', array('action' => 'add')));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo '<fieldset><legend>Добавление категории</legend>';
+foreach($form as $element)
+{
+    echo '<div>';
+    $attributes = $element->getAttributes();
+
+    if($element->getLabel())
+    {
+        $element->setLabelAttributes(array('class' => 'control-label'));
+        if(isset($attributes['required']))
+        {
+            $element->setLabel($element->getLabel(). ' *');
+        }
+    }
+
+    if(isset($attributes['type']) && $attributes['type'] == 'text')
+    {
+        echo $this->formLabel($element);
+        echo $this->formInput($element);
+    }
+    else
+    {
+        echo $this->formRow($element);
+    }
+    echo '</div>';
+
+}
+echo '</fieldset>';
+echo $this->form()->closeTag();
+?>

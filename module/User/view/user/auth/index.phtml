@@ -1,0 +1,37 @@
+
+<?php
+$form->setAttribute('action', $this->url('user/auth', array('action' => 'login')));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo '<fieldset><legend>Авторизация</legend>';
+foreach($form as $element)
+{
+    $attributes = $element->getAttributes();
+
+    if($element->getLabel())
+    {
+        $element->setLabelAttributes(array('class' => 'control-label'));
+        if(isset($attributes['required']))
+        {
+            $element->setLabel($element->getLabel(). ' *');
+        }
+
+    }
+    if((isset($attributes['type']) && $attributes['type'] == 'email')) {
+        echo $this->formLabel($element)."<br>";
+        echo $this->formEmail($element)."<br>";
+    }
+    elseif((isset($attributes['type']) && $attributes['type'] == 'password')) {
+        echo $this->formLabel($element)."<br>";
+        echo $this->formPassword($element)."<br>";
+    }
+    else
+    {
+        echo $this->formRow($element)."<br>";
+    }
+
+}
+echo '</fieldset>';
+echo $this->form()->closeTag();
+?>

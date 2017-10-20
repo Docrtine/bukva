@@ -1,0 +1,42 @@
+<?php
+
+$form->setAttribute('action', $this->url('admin/books', array('action' => 'add')));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo '<fieldset><legend>Добавление книги</legend>';
+foreach($form as $element)
+{
+    echo '<div>';
+    $attributes = $element->getAttributes();
+
+    if($element->getLabel())
+    {
+        $element->setLabelAttributes(array('class' => 'control-label'));
+        if(isset($attributes['required']))
+        {
+            $element->setLabel($element->getLabel(). ' *');
+        }
+    }
+
+    if(isset($attributes['type']) && $attributes['type'] == 'text')
+    {
+        echo $this->formLabel($element)."<br>";
+        echo $this->formInput($element)."<br>";
+    }
+    elseif(isset($attributes['type']) && $attributes['type'] == 'textarea')
+    {
+        echo $this->formLabel($element)."<br>";
+        echo $this->formTextArea($element)."<br>";
+    }
+
+    else
+    {
+        echo $this->formRow($element)."<br>";
+    }
+    echo '</div>';
+
+}
+echo '</fieldset>';
+echo $this->form()->closeTag();
+?>

@@ -1,0 +1,57 @@
+<?php
+
+namespace User\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Reviews
+ *
+ * @ORM\Table(name="reviews", indexes={@ORM\Index(name="isbn", columns={"isbn"}), @ORM\Index(name="id_user", columns={"id_user"})})
+ * @ORM\Entity
+ */
+class Reviews
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="isbn", type="string", length=255, nullable=false)
+     */
+    private $isbn;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="date", nullable=false)
+     */
+    private $date;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="text", type="text", length=65535, nullable=false)
+     */
+    private $text;
+
+    /**
+     * @var \User\Entity\Users
+     *
+     * @ORM\ManyToOne(targetEntity="User\Entity\Users")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id")
+     * })
+     */
+    private $idUser;
+
+
+}
+

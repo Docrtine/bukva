@@ -1,0 +1,85 @@
+<?php
+
+namespace User\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Books
+ *
+ * @ORM\Table(name="books", uniqueConstraints={@ORM\UniqueConstraint(name="category", columns={"category"})}, indexes={@ORM\Index(name="author", columns={"author", "title"})})
+ * @ORM\Entity
+ */
+class Books
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="isbn", type="string", length=255, nullable=false)
+     */
+    private $isbn = '';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="author", type="string", length=255, nullable=false)
+     */
+    private $author;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255, nullable=false)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="anotation", type="text", length=65535, nullable=false)
+     */
+    private $anotation;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="pages", type="integer", nullable=false)
+     */
+    private $pages;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="price", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $price;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pictureName", type="string", length=255, nullable=false)
+     */
+    private $picturename;
+
+    /**
+     * @var \User\Entity\Category
+     *
+     * @ORM\ManyToOne(targetEntity="User\Entity\Category")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="category", referencedColumnName="id")
+     * })
+     */
+    private $category;
+
+
+}
+
