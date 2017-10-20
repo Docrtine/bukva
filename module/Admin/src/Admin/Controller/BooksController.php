@@ -55,43 +55,6 @@ class BooksController extends BaseController
                // return $this->redirect()->toRoute('upload-form/success');
             }
         }
-       /* if ($request->isPost()) {
-            $message = $status = '';
-
-            $data = $request->getPost();
-
-            $books = new Books();
-            $form->setHydrator(new DoctrineHydrator($em, '\Books'));
-            $form->bind($books);
-            $form->setData($data);
-
-            if ($form->isValid()) {
-                $em->persist($books);
-                $em->flush();
-
-                $status = 'success';
-                $message = 'Книга добавлена';
-
-            } else {
-                $status = 'error';
-                $message = 'Ошибка параметров';
-                foreach ($form->getInputFilter()->getInvalidInput() as $errors) {
-                    foreach ($errors->getMessages() as $error) {
-                        $message .= ' ' . $error;
-                    }
-
-
-                }
-            }
-        } else {
-            return array('form' => $form);
-        }
-        if($message) {
-            $this->flashMessenger()
-                ->setNamespace($status)
-                ->addMessage($message);
-        }
-        return $this->redirect()->toRoute('admin/books');*/
         return array('form' => $form);
     }
     public function showAction()
@@ -133,9 +96,6 @@ class BooksController extends BaseController
         $form = new BooksAddForm($em);
 
         $isbn=  $this->params()->fromRoute('id',0);
-       // $repository = $em->getRepository('User\Entity\Books');
-       // $category = $repository->find(1);
-       // $category = $em->find('User\Entity\Books', $isbn);
         $category = $em->createQueryBuilder()
             ->select('b')
             ->from('User\Entity\Books','b')
